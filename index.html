@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  FORGE FITNESS — Design Rationale
+  Direction: Dark athletic / high-energy gym. Near-black canvas, charcoal surfaces, single VOLT
+  accent (#C6F135) reserved for energy and CTAs. Oswald (700, condensed) drives huge kinetic
+  numerals and headlines; Manrope carries readable body. Signature moment: pinned horizontal
+  class-schedule track with animated stat counters. Smoky high-contrast imagery, diagonal energy.
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Forge Fitness — a strength-first training gym in Baltimore. Coached programs, HIIT, group classes, recovery, and 24/7 open gym access. Start a free 7-day trial.">
+<meta property="og:title" content="Forge Fitness — Train Heavy. Move Fast. Get Forged.">
+<meta property="og:description" content="Strength-first coaching, HIIT, group classes, and 24/7 open gym in Baltimore. Free 7-day trial.">
+<meta property="og:image" content="https://picsum.photos/seed/forgehero/1200/630">
+<title>Forge Fitness — Train Heavy. Move Fast. Get Forged.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0A0A'/%3E%3Cpath d='M9 6h14v4H14v4h7v4h-7v8H9z' fill='%23C6F135'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0A0A0A',
+          coal: '#121212',
+          surface: '#181818',
+          surface2: '#1f1f1f',
+          line: '#2a2a2a',
+          volt: '#C6F135',
+          'volt-dim': '#9fc418',
+          ash: '#a3a3a3',
+          smoke: '#d4d4d4',
+        },
+        fontFamily: {
+          display: ['Oswald', 'sans-serif'],
+          body: ['Manrope', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { background-color: #0A0A0A; }
+  .font-display { letter-spacing: -0.01em; }
+  .display-tight { letter-spacing: -0.02em; line-height: 0.92; }
+  ::selection { background: #C6F135; color: #0A0A0A; }
+
+  /* Volt focus rings */
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid #C6F135;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .grain {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .smoky { filter: brightness(0.45) contrast(1.25) saturate(0.85); }
+  .smoky-soft { filter: brightness(0.55) contrast(1.15) saturate(0.9); }
+
+  .h-track { display: flex; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .reveal { opacity: 0; transform: translateY(40px); }
+  .diag { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 3vw)); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body class="bg-ink text-smoke font-body antialiased overflow-x-hidden">
+<div class="grain" aria-hidden="true"></div>
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-volt focus:text-ink focus:px-4 focus:py-2 focus:font-display focus:font-bold focus:rounded">Skip to content</a>
+
+<!-- ============ NAV ============ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-[100] transition-colors duration-300 border-b border-transparent">
+  <nav aria-label="Main navigation" class="max-w-[1400px] mx-auto px-5 sm:px-8 h-16 md:h-20 flex items-center justify-between">
+    <a href="#main" class="flex items-center gap-2 group" aria-label="Forge Fitness home">
+      <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true" class="shrink-0">
+        <path d="M9 6h14v4H14v4h7v4h-7v8H9z" fill="#C6F135"/>
+      </svg>
+      <span class="font-display font-bold text-xl md:text-2xl tracking-tight text-white">FORGE<span class="text-volt">.</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 font-body text-sm font-medium text-ash">
+      <a href="#programs" class="hover:text-white transition-colors duration-200">Programs</a>
+      <a href="#about" class="hover:text-white transition-colors duration-200">The Forge</a>
+      <a href="#schedule" class="hover:text-white transition-colors duration-200">Schedule</a>
+      <a href="#pricing" class="hover:text-white transition-colors duration-200">Pricing</a>
+      <a href="#stories" class="hover:text-white transition-colors duration-200">Results</a>
+    </div>
+    <a href="#join" class="inline-flex items-center gap-2 bg-volt text-ink font-display font-bold uppercase tracking-wide text-sm px-5 py-2.5 rounded-sm hover:bg-white transition-colors duration-200 min-h-[44px]">
+      Free Trial
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section aria-labelledby="hero-heading" class="relative min-h-[100svh] flex items-end overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <img src="https://picsum.photos/seed/forgeironbar/1920/1280" alt="Athlete gripping a loaded barbell under low gym lighting" class="w-full h-full object-cover smoky" fetchpriority="high" width="1920" height="1280">
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-ink/80 to-transparent"></div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 pb-16 md:pb-24 pt-32">
+    <p class="hero-eyebrow font-display font-medium uppercase tracking-[0.35em] text-volt text-xs sm:text-sm mb-5">Baltimore — Strength First</p>
+    <h1 id="hero-heading" class="hero-line font-display font-bold uppercase text-white display-tight max-w-[18ch]" style="font-size:clamp(2.5rem,9vw,7rem)">
+      Train heavy.<br>Move fast.<br><span class="text-volt">Get forged.</span>
+    </h1>
+    <p class="hero-sub mt-7 max-w-xl text-ash text-base md:text-lg leading-relaxed">
+      A coaching-first gym built for people who want to get genuinely strong. Real barbells, real conditioning, real coaches who know your name and your numbers.
+    </p>
+    <div class="hero-cta mt-9 flex flex-col sm:flex-row gap-4">
+      <a href="#join" class="inline-flex items-center justify-center gap-2 bg-volt text-ink font-display font-bold uppercase tracking-wide text-base px-8 py-4 rounded-sm hover:bg-white transition-colors duration-200 min-h-[44px]">
+        Start 7-Day Free Trial
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#programs" class="inline-flex items-center justify-center gap-2 border border-line text-white font-display font-bold uppercase tracking-wide text-base px-8 py-4 rounded-sm hover:border-volt hover:text-volt transition-colors duration-200 min-h-[44px]">
+        Explore Programs
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS / BENTO ============ -->
+<section id="programs" aria-labelledby="programs-heading" class="relative z-10 bg-ink py-24 md:py-40">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
+      <div>
+        <p class="font-display font-medium uppercase tracking-[0.35em] text-volt text-xs sm:text-sm mb-4 reveal">What we run</p>
+        <h2 id="programs-heading" class="font-display font-bold uppercase text-white display-tight reveal" style="font-size:clamp(2rem,5.5vw,4.5rem)">Six ways<br>to get to work</h2>
+      </div>
+      <p class="max-w-sm text-ash leading-relaxed reveal">Every track is programmed by our coaching staff and scaled to where you actually are. No guessing, no wandering the floor.</p>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 auto-rows-[180px] sm:auto-rows-[210px] gap-3 sm:gap-4 grid-flow-dense">
+
+      <!-- Strength (large) -->
+      <article class="program reveal group relative col-span-2 row-span-2 rounded-lg overflow-hidden bg-surface border border-line">
+        <img src="https://picsum.photos/seed/forgesquat/900/900" alt="Lifter setting up under a barbell in a power rack" loading="lazy" width="900" height="900" class="absolute inset-0 w-full h-full object-cover smoky-soft transition-transform duration-500 group-hover:scale-105">
+        <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent"></div>
+        <div class="relative h-full p-6 sm:p-8 flex flex-col justify-between">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5 17.5 17.5M21 21l-1-1M3 3l1 1"/><path d="m18 22 4-4M2 6l4-4M3 10l7-7M14 21l7-7"/></svg>
+          <div>
+            <h3 class="font-display font-bold uppercase text-2xl sm:text-3xl text-white">Strength Training</h3>
+            <p class="mt-2 text-sm text-ash max-w-md leading-relaxed">Linear and conjugate barbell programming. Squat, press, pull, repeat — with coaches dialing in every percentage.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- HIIT -->
+      <article class="program reveal group relative rounded-lg overflow-hidden bg-surface border border-line p-6 flex flex-col justify-between hover:border-volt transition-colors duration-300">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+        <div>
+          <h3 class="font-display font-bold uppercase text-xl text-white">HIIT &amp; Conditioning</h3>
+          <p class="mt-1.5 text-sm text-ash leading-snug">35-minute engine builders. Rowers, bikes, sleds.</p>
+        </div>
+      </article>
+
+      <!-- Group classes -->
+      <article class="program reveal group relative rounded-lg overflow-hidden bg-volt p-6 flex flex-col justify-between">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div>
+          <h3 class="font-display font-bold uppercase text-xl text-ink">Group Classes</h3>
+          <p class="mt-1.5 text-sm text-ink/70 font-medium leading-snug">Coached sessions, 6am to 8pm. You won't train alone.</p>
+        </div>
+      </article>
+
+      <!-- Personal training (wide) -->
+      <article class="program reveal group relative col-span-2 rounded-lg overflow-hidden bg-surface border border-line">
+        <img src="https://picsum.photos/seed/forgecoach/1000/500" alt="Coach spotting an athlete during a set" loading="lazy" width="1000" height="500" class="absolute inset-0 w-full h-full object-cover smoky-soft transition-transform duration-500 group-hover:scale-105">
+        <div class="absolute inset-0 bg-gradient-to-r from-ink via-ink/70 to-transparent"></div>
+        <div class="relative h-full p-6 flex flex-col justify-between">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          <div>
+            <h3 class="font-display font-bold uppercase text-xl text-white">Personal Training</h3>
+            <p class="mt-1.5 text-sm text-ash max-w-xs leading-snug">One-on-one programming built around your goals and your schedule.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Recovery -->
+      <article class="program reveal group relative rounded-lg overflow-hidden bg-surface border border-line p-6 flex flex-col justify-between hover:border-volt transition-colors duration-300">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.35-9.5-8.5C.5 9 2 5.5 5.5 5.5 8 5.5 9 7 12 7s4-1.5 6.5-1.5C22 5.5 23.5 9 21.5 12.5 19 16.65 12 21 12 21z"/></svg>
+        <div>
+          <h3 class="font-display font-bold uppercase text-xl text-white">Recovery &amp; Mobility</h3>
+          <p class="mt-1.5 text-sm text-ash leading-snug">Sauna, soft-tissue work, and guided mobility flows.</p>
+        </div>
+      </article>
+
+      <!-- Open gym -->
+      <article class="program reveal group relative rounded-lg overflow-hidden bg-surface2 border border-line p-6 flex flex-col justify-between hover:border-volt transition-colors duration-300">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <div>
+          <h3 class="font-display font-bold uppercase text-xl text-white">24/7 Open Gym</h3>
+          <p class="mt-1.5 text-sm text-ash leading-snug">Fob access any hour. The floor is yours.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT / PHILOSOPHY ============ -->
+<section id="about" aria-labelledby="about-heading" class="relative z-10 bg-coal py-24 md:py-40">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+    <div class="reveal relative">
+      <div class="relative rounded-lg overflow-hidden">
+        <img src="https://picsum.photos/seed/forgefloor/900/1100" alt="Wide view of the Forge training floor with racks and athletes mid-session" loading="lazy" width="900" height="1100" class="w-full h-full object-cover smoky-soft">
+        <div class="absolute inset-0 bg-gradient-to-tr from-ink/60 to-transparent"></div>
+      </div>
+      <div class="absolute -bottom-6 -right-2 sm:right-6 bg-volt text-ink rounded-lg px-6 py-5 max-w-[220px]">
+        <p class="font-display font-bold text-5xl leading-none">11</p>
+        <p class="font-display font-semibold uppercase text-sm tracking-wide mt-1">years on this block</p>
+      </div>
+    </div>
+
+    <div>
+      <p class="font-display font-medium uppercase tracking-[0.35em] text-volt text-xs sm:text-sm mb-4 reveal">The Forge</p>
+      <h2 id="about-heading" class="font-display font-bold uppercase text-white display-tight reveal" style="font-size:clamp(2rem,5vw,4rem)">Coaches who<br>remember<br>your numbers</h2>
+      <p class="mt-6 text-ash leading-relaxed max-w-lg reveal">We opened in a 9,000 sq ft warehouse with three racks and a chalk bucket. The philosophy hasn't changed: get strong on the basics, condition hard, recover well, and show up. The community grew because results did.</p>
+
+      <div class="mt-10 grid sm:grid-cols-3 gap-6">
+        <div class="reveal">
+          <p class="font-display font-medium uppercase text-volt text-sm tracking-wide mb-1">Coaching</p>
+          <p class="text-sm text-ash leading-snug">Every coach holds a recognized strength cert and writes your block personally.</p>
+        </div>
+        <div class="reveal">
+          <p class="font-display font-medium uppercase text-volt text-sm tracking-wide mb-1">Community</p>
+          <p class="text-sm text-ash leading-snug">Bring a friend any Friday. PR bell rings most days — sometimes yours.</p>
+        </div>
+        <div class="reveal">
+          <p class="font-display font-medium uppercase text-volt text-sm tracking-wide mb-1">Results</p>
+          <p class="text-sm text-ash leading-snug">Members add an average of 38 lbs to their squat in the first six months.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNATURE: PINNED HORIZONTAL SCHEDULE + COUNTERS ============ -->
+<section id="schedule" aria-labelledby="schedule-heading" class="relative z-10 bg-ink">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 pt-24 md:pt-40 pb-10">
+    <p class="font-display font-medium uppercase tracking-[0.35em] text-volt text-xs sm:text-sm mb-4 reveal">This week on the floor</p>
+    <h2 id="schedule-heading" class="font-display font-bold uppercase text-white display-tight max-w-[16ch] reveal" style="font-size:clamp(2rem,5.5vw,4.5rem)">The weekly schedule, end to end</h2>
+    <p class="mt-5 text-ash max-w-md reveal">Scroll to move through the week. Coached blocks run morning, midday, and evening — drop into any of them.</p>
+  </div>
+
+  <!-- Pinned horizontal track -->
+  <div id="pin-wrap" class="relative h-[100svh] overflow-hidden">
+    <div id="h-track" class="h-track h-full items-center will-change-transform">
+      <div class="shrink-0 w-[18vw] min-w-[60px]" aria-hidden="true"></div>
+      <ol class="h-track items-stretch gap-5 px-2" aria-label="Weekly class schedule">
+        <!-- Day cards -->
+        <li class="sched-card shrink-0 w-[78vw] sm:w-[48vw] lg:w-[30vw] max-w-[420px] bg-surface border border-line rounded-xl p-7 flex flex-col">
+          <span class="font-display font-bold uppercase text-volt text-sm tracking-[0.3em]">Mon</span>
+          <h3 class="font-display font-bold uppercase text-3xl text-white mt-1">Max Effort Lower</h3>
+          <ul class="mt-6 space-y-4 text-sm flex-1">
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">6:00 AM · Strength</span><span class="text-ash tabular-nums">60 min</span></li>
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">12:00 PM · Group</span><span class="text-ash tabular-nums">45 min</span></li>
+            <li class="flex justify-between"><span class="text-smoke font-medium">6:30 PM · HIIT</span><span class="text-ash tabular-nums">35 min</span></li>
+          </ul>
+        </li>
+        <li class="sched-card shrink-0 w-[78vw] sm:w-[48vw] lg:w-[30vw] max-w-[420px] bg-surface border border-line rounded-xl p-7 flex flex-col">
+          <span class="font-display font-bold uppercase text-volt text-sm tracking-[0.3em]">Tue</span>
+          <h3 class="font-display font-bold uppercase text-3xl text-white mt-1">Conditioning Engine</h3>
+          <ul class="mt-6 space-y-4 text-sm flex-1">
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">6:00 AM · Rower Intervals</span><span class="text-ash tabular-nums">40 min</span></li>
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">12:00 PM · Group</span><span class="text-ash tabular-nums">45 min</span></li>
+            <li class="flex justify-between"><span class="text-smoke font-medium">7:00 PM · Mobility</span><span class="text-ash tabular-nums">30 min</span></li>
+          </ul>
+        </li>
+        <li class="sched-card shrink-0 w-[78vw] sm:w-[48vw] lg:w-[30vw] max-w-[420px] bg-volt text-ink rounded-xl p-7 flex flex-col">
+          <span class="font-display font-bold uppercase text-ink/70 text-sm tracking-[0.3em]">Wed</span>
+          <h3 class="font-display font-bold uppercase text-3xl text-ink mt-1">Dynamic Effort Upper</h3>
+          <ul class="mt-6 space-y-4 text-sm flex-1">
+            <li class="flex justify-between border-b border-ink/20 pb-3"><span class="font-semibold">6:00 AM · Speed Bench</span><span class="text-ink/70 tabular-nums">60 min</span></li>
+            <li class="flex justify-between border-b border-ink/20 pb-3"><span class="font-semibold">12:00 PM · Group</span><span class="text-ink/70 tabular-nums">45 min</span></li>
+            <li class="flex justify-between"><span class="font-semibold">6:30 PM · HIIT</span><span class="text-ink/70 tabular-nums">35 min</span></li>
+          </ul>
+        </li>
+        <li class="sched-card shrink-0 w-[78vw] sm:w-[48vw] lg:w-[30vw] max-w-[420px] bg-surface border border-line rounded-xl p-7 flex flex-col">
+          <span class="font-display font-bold uppercase text-volt text-sm tracking-[0.3em]">Thu</span>
+          <h3 class="font-display font-bold uppercase text-3xl text-white mt-1">Strength &amp; Carries</h3>
+          <ul class="mt-6 space-y-4 text-sm flex-1">
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">6:00 AM · Deadlift</span><span class="text-ash tabular-nums">60 min</span></li>
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">12:00 PM · Group</span><span class="text-ash tabular-nums">45 min</span></li>
+            <li class="flex justify-between"><span class="text-smoke font-medium">7:00 PM · Open Gym</span><span class="text-ash tabular-nums">Flex</span></li>
+          </ul>
+        </li>
+        <li class="sched-card shrink-0 w-[78vw] sm:w-[48vw] lg:w-[30vw] max-w-[420px] bg-surface border border-line rounded-xl p-7 flex flex-col">
+          <span class="font-display font-bold uppercase text-volt text-sm tracking-[0.3em]">Fri</span>
+          <h3 class="font-display font-bold uppercase text-3xl text-white mt-1">Bring-A-Friend</h3>
+          <ul class="mt-6 space-y-4 text-sm flex-1">
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">6:00 AM · Partner WOD</span><span class="text-ash tabular-nums">50 min</span></li>
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">12:00 PM · Group</span><span class="text-ash tabular-nums">45 min</span></li>
+            <li class="flex justify-between"><span class="text-smoke font-medium">6:00 PM · Social Lift</span><span class="text-ash tabular-nums">60 min</span></li>
+          </ul>
+        </li>
+        <li class="sched-card shrink-0 w-[78vw] sm:w-[48vw] lg:w-[30vw] max-w-[420px] bg-surface2 border border-line rounded-xl p-7 flex flex-col">
+          <span class="font-display font-bold uppercase text-volt text-sm tracking-[0.3em]">Sat / Sun</span>
+          <h3 class="font-display font-bold uppercase text-3xl text-white mt-1">Weekend Forge</h3>
+          <ul class="mt-6 space-y-4 text-sm flex-1">
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">8:00 AM · Long Conditioning</span><span class="text-ash tabular-nums">60 min</span></li>
+            <li class="flex justify-between border-b border-line pb-3"><span class="text-smoke font-medium">10:00 AM · Skills Clinic</span><span class="text-ash tabular-nums">45 min</span></li>
+            <li class="flex justify-between"><span class="text-smoke font-medium">All day · Open Gym</span><span class="text-ash tabular-nums">24/7</span></li>
+          </ul>
+        </li>
+      </ol>
+      <div class="shrink-0 w-[15vw] min-w-[40px]" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Stat counters -->
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 py-20 md:py-28 border-t border-line">
+    <dl class="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6">
+      <div class="border-l-2 border-volt pl-5">
+        <dd class="counter font-display font-bold text-white tabular-nums" data-target="2400" data-suffix="+" style="font-size:clamp(2.75rem,6vw,5rem)">0</dd>
+        <dt class="font-display font-medium uppercase tracking-wide text-ash text-sm mt-1">Active members</dt>
+      </div>
+      <div class="border-l-2 border-volt pl-5">
+        <dd class="counter font-display font-bold text-white tabular-nums" data-target="120" data-suffix="" style="font-size:clamp(2.75rem,6vw,5rem)">0</dd>
+        <dt class="font-display font-medium uppercase tracking-wide text-ash text-sm mt-1">Classes / week</dt>
+      </div>
+      <div class="border-l-2 border-volt pl-5">
+        <dd class="counter font-display font-bold text-white tabular-nums" data-target="18" data-suffix="" style="font-size:clamp(2.75rem,6vw,5rem)">0</dd>
+        <dt class="font-display font-medium uppercase tracking-wide text-ash text-sm mt-1">Certified coaches</dt>
+      </div>
+      <div class="border-l-2 border-volt pl-5">
+        <dd class="counter font-display font-bold text-white tabular-nums" data-target="14500" data-suffix="" style="font-size:clamp(2.75rem,6vw,5rem)">0</dd>
+        <dt class="font-display font-medium uppercase tracking-wide text-ash text-sm mt-1">Sq ft of floor</dt>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" aria-labelledby="pricing-heading" class="relative z-10 bg-coal py-24 md:py-40">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="font-display font-medium uppercase tracking-[0.35em] text-volt text-xs sm:text-sm mb-4 reveal">Membership</p>
+      <h2 id="pricing-heading" class="font-display font-bold uppercase text-white display-tight reveal" style="font-size:clamp(2rem,5.5vw,4.5rem)">Pick your tier</h2>
+      <p class="mt-4 text-ash reveal">No contracts. Cancel any time. Every tier starts with a free 7-day trial.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-5 items-stretch max-w-5xl mx-auto">
+      <!-- Day Pass -->
+      <div class="price-card reveal flex flex-col bg-surface border border-line rounded-xl p-8">
+        <h3 class="font-display font-bold uppercase text-2xl text-white">Day Pass</h3>
+        <p class="text-sm text-ash mt-1">Drop in and train</p>
+        <p class="mt-6 font-display font-bold text-white"><span class="text-5xl tabular-nums">$22</span><span class="text-ash text-base font-body font-medium"> / day</span></p>
+        <ul class="mt-7 space-y-3 text-sm flex-1">
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">Full open-gym floor access</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">One group class included</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">Locker &amp; shower access</span></li>
+        </ul>
+        <a href="#join" class="mt-8 inline-flex items-center justify-center border border-line text-white font-display font-bold uppercase tracking-wide px-6 py-3.5 rounded-sm hover:border-volt hover:text-volt transition-colors duration-200 min-h-[44px]">Buy a Day Pass</a>
+      </div>
+
+      <!-- Unlimited (featured) -->
+      <div class="price-card reveal flex flex-col bg-volt text-ink rounded-xl p-8 relative lg:-translate-y-4 shadow-2xl shadow-volt/10">
+        <span class="absolute top-5 right-5 font-display font-bold uppercase text-xs tracking-[0.2em] bg-ink text-volt px-3 py-1.5 rounded-sm">Most popular</span>
+        <h3 class="font-display font-bold uppercase text-2xl">Unlimited</h3>
+        <p class="text-sm text-ink/70 font-medium mt-1">Train as much as you want</p>
+        <p class="mt-6 font-display font-bold"><span class="text-5xl tabular-nums">$129</span><span class="text-ink/70 text-base font-body font-medium"> / month</span></p>
+        <ul class="mt-7 space-y-3 text-sm flex-1">
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="font-medium">24/7 access &amp; all group classes</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="font-medium">Programmed strength &amp; HIIT blocks</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="font-medium">Recovery suite &amp; sauna</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="font-medium">Monthly check-in with a coach</span></li>
+        </ul>
+        <a href="#join" class="mt-8 inline-flex items-center justify-center bg-ink text-volt font-display font-bold uppercase tracking-wide px-6 py-3.5 rounded-sm hover:bg-surface transition-colors duration-200 min-h-[44px]">Start Free Trial</a>
+      </div>
+
+      <!-- Coached -->
+      <div class="price-card reveal flex flex-col bg-surface border border-line rounded-xl p-8">
+        <h3 class="font-display font-bold uppercase text-2xl text-white">Coached</h3>
+        <p class="text-sm text-ash mt-1">Unlimited + personal coaching</p>
+        <p class="mt-6 font-display font-bold text-white"><span class="text-5xl tabular-nums">$249</span><span class="text-ash text-base font-body font-medium"> / month</span></p>
+        <ul class="mt-7 space-y-3 text-sm flex-1">
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">Everything in Unlimited</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">Four 1-on-1 sessions / month</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">Custom programming in-app</span></li>
+          <li class="flex gap-3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C6F135" stroke-width="2.5" class="shrink-0 mt-0.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span class="text-smoke">Nutrition &amp; recovery plan</span></li>
+        </ul>
+        <a href="#join" class="mt-8 inline-flex items-center justify-center border border-line text-white font-display font-bold uppercase tracking-wide px-6 py-3.5 rounded-sm hover:border-volt hover:text-volt transition-colors duration-200 min-h-[44px]">Get Coached</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOCIAL PROOF ============ -->
+<section id="stories" aria-labelledby="stories-heading" class="relative z-10 bg-ink py-24 md:py-40">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
+    <div class="mb-14 md:mb-20">
+      <p class="font-display font-medium uppercase tracking-[0.35em] text-volt text-xs sm:text-sm mb-4 reveal">Results</p>
+      <h2 id="stories-heading" class="font-display font-bold uppercase text-white display-tight max-w-[14ch] reveal" style="font-size:clamp(2rem,5.5vw,4.5rem)">Forged here, in their words</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      <figure class="story reveal bg-surface border border-line rounded-xl overflow-hidden flex flex-col">
+        <img src="https://picsum.photos/seed/forgemarcus/600/420" alt="Member Marcus after a training session" loading="lazy" width="600" height="420" class="w-full h-48 object-cover smoky-soft">
+        <blockquote class="p-7 flex flex-col flex-1">
+          <p class="text-volt font-display font-bold text-2xl">+92 lbs deadlift</p>
+          <p class="mt-3 text-smoke leading-relaxed flex-1">"I'd bounced between commercial gyms for years and never got anywhere. Eight months at Forge and I pulled 405 for the first time. The coaching is the whole difference."</p>
+          <figcaption class="mt-5 pt-5 border-t border-line">
+            <span class="font-display font-bold uppercase text-white tracking-wide">Marcus Iverson</span>
+            <span class="block text-sm text-ash">Member since 2024</span>
+          </figcaption>
+        </blockquote>
+      </figure>
+
+      <figure class="story reveal bg-surface border border-line rounded-xl overflow-hidden flex flex-col md:-translate-y-4">
+        <img src="https://picsum.photos/seed/forgepriya/600/420" alt="Member Priya mid-conditioning workout" loading="lazy" width="600" height="420" class="w-full h-48 object-cover smoky-soft">
+        <blockquote class="p-7 flex flex-col flex-1">
+          <p class="text-volt font-display font-bold text-2xl">Ran my first half</p>
+          <p class="mt-3 text-smoke leading-relaxed flex-1">"I came for the conditioning classes and ended up loving the barbell work. Down 19 pounds, finished a half marathon, and I actually look forward to 6am now."</p>
+          <figcaption class="mt-5 pt-5 border-t border-line">
+            <span class="font-display font-bold uppercase text-white tracking-wide">Priya Raman</span>
+            <span class="block text-sm text-ash">Member since 2023</span>
+          </figcaption>
+        </blockquote>
+      </figure>
+
+      <figure class="story reveal bg-surface border border-line rounded-xl overflow-hidden flex flex-col">
+        <img src="https://picsum.photos/seed/forgedeshawn/600/420" alt="Member DeShawn racking weights after a lift" loading="lazy" width="600" height="420" class="w-full h-48 object-cover smoky-soft">
+        <blockquote class="p-7 flex flex-col flex-1">
+          <p class="text-volt font-display font-bold text-2xl">Off blood-pressure meds</p>
+          <p class="mt-3 text-smoke leading-relaxed flex-1">"My doctor told me to start lifting at 51. The Coached tier gave me a plan I could actually follow. A year later my numbers are normal and I'm stronger than at 30."</p>
+          <figcaption class="mt-5 pt-5 border-t border-line">
+            <span class="font-display font-bold uppercase text-white tracking-wide">DeShawn Carter</span>
+            <span class="block text-sm text-ash">Member since 2023</span>
+          </figcaption>
+        </blockquote>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section id="join" aria-labelledby="join-heading" class="relative z-10 overflow-hidden bg-volt">
+  <div class="absolute inset-0 opacity-10" aria-hidden="true">
+    <img src="https://picsum.photos/seed/forgecta/1920/700" alt="" loading="lazy" width="1920" height="700" class="w-full h-full object-cover mix-blend-luminosity">
+  </div>
+  <div class="relative max-w-[1400px] mx-auto px-5 sm:px-8 py-24 md:py-36 text-center">
+    <h2 id="join-heading" class="font-display font-bold uppercase text-ink display-tight mx-auto max-w-[16ch]" style="font-size:clamp(2.25rem,6.5vw,5.5rem)">Your first week is on us</h2>
+    <p class="mt-5 text-ink/80 font-medium max-w-xl mx-auto text-lg">Seven days of full access — every class, every rack, every coach. Walk in, get assessed, get a plan. No card required.</p>
+    <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+      <a href="#join" class="inline-flex items-center justify-center gap-2 bg-ink text-volt font-display font-bold uppercase tracking-wide text-base px-9 py-4 rounded-sm hover:bg-surface transition-colors duration-200 min-h-[44px]">
+        Claim Free Trial
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="tel:+14108472193" class="inline-flex items-center justify-center gap-2 border-2 border-ink text-ink font-display font-bold uppercase tracking-wide text-base px-9 py-4 rounded-sm hover:bg-ink hover:text-volt transition-colors duration-200 min-h-[44px]">
+        Call the front desk
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative z-10 bg-ink border-t border-line">
+  <div class="max-w-[1400px] mx-auto px-5 sm:px-8 py-16 grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+    <div>
+      <a href="#main" class="flex items-center gap-2 mb-5" aria-label="Forge Fitness home">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M9 6h14v4H14v4h7v4h-7v8H9z" fill="#C6F135"/></svg>
+        <span class="font-display font-bold text-2xl tracking-tight text-white">FORGE<span class="text-volt">.</span></span>
+      </a>
+      <p class="text-ash text-sm leading-relaxed max-w-xs">A strength-first training gym. Train heavy, move fast, get forged.</p>
+      <div class="flex gap-3 mt-6">
+        <a href="#" aria-label="Forge Fitness on Instagram" class="w-11 h-11 inline-flex items-center justify-center rounded-sm border border-line text-ash hover:text-volt hover:border-volt transition-colors duration-200">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="Forge Fitness on YouTube" class="w-11 h-11 inline-flex items-center justify-center rounded-sm border border-line text-ash hover:text-volt hover:border-volt transition-colors duration-200">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 8.5a3 3 0 0 0-2.1-2.1C18 6 12 6 12 6s-6 0-7.9.4A3 3 0 0 0 2 8.5 31 31 0 0 0 2 12a31 31 0 0 0 .1 3.5 3 3 0 0 0 2.1 2.1C6 18 12 18 12 18s6 0 7.9-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 22 12a31 31 0 0 0-.1-3.5z"/><path d="m10 15 5-3-5-3z" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="Forge Fitness on TikTok" class="w-11 h-11 inline-flex items-center justify-center rounded-sm border border-line text-ash hover:text-volt hover:border-volt transition-colors duration-200">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 3c.3 2.1 1.6 3.6 3.7 3.9V10c-1.3 0-2.6-.4-3.7-1.1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3a2.5 2.5 0 1 0 1.7 2.4V3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <nav aria-label="Footer navigation">
+      <h2 class="font-display font-bold uppercase text-white text-sm tracking-wide mb-4">Explore</h2>
+      <ul class="space-y-3 text-sm text-ash">
+        <li><a href="#programs" class="hover:text-volt transition-colors duration-200">Programs</a></li>
+        <li><a href="#schedule" class="hover:text-volt transition-colors duration-200">Schedule</a></li>
+        <li><a href="#pricing" class="hover:text-volt transition-colors duration-200">Pricing</a></li>
+        <li><a href="#stories" class="hover:text-volt transition-colors duration-200">Results</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="font-display font-bold uppercase text-white text-sm tracking-wide mb-4">Hours</h2>
+      <ul class="space-y-3 text-sm text-ash">
+        <li><span class="block text-smoke font-medium">Staffed</span>Mon–Fri 5:30a–9p · Sat–Sun 7a–6p</li>
+        <li><span class="block text-smoke font-medium">Fob Access</span>Members 24/7</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="font-display font-bold uppercase text-white text-sm tracking-wide mb-4">Forge Fitness</h2>
+      <address class="not-italic space-y-3 text-sm text-ash">
+        <p>1428 Clipper Mill Road<br>Baltimore, MD 21211</p>
+        <p><a href="tel:+14108472193" class="hover:text-volt transition-colors duration-200">(410) 847-2193</a></p>
+        <p><a href="mailto:train@forgefitness.com" class="hover:text-volt transition-colors duration-200">train@forgefitness.com</a></p>
+      </address>
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="max-w-[1400px] mx-auto px-5 sm:px-8 py-6 flex flex-col sm:flex-row gap-3 justify-between items-center text-xs text-ash">
+      <p>&copy; 2026 Forge Fitness LLC. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-smoke transition-colors duration-200">Privacy Policy</a>
+        <a href="#" class="hover:text-smoke transition-colors duration-200">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Nav background on scroll (no motion gate — purely visual contrast aid)
+  const navEl = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 24) {
+      navEl.classList.add('bg-ink/90', 'backdrop-blur-md', 'border-line');
+      navEl.classList.remove('border-transparent');
+    } else {
+      navEl.classList.remove('bg-ink/90', 'backdrop-blur-md', 'border-line');
+      navEl.classList.add('border-transparent');
+    }
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  if (prefersReduced || typeof gsap === 'undefined') {
+    // Counters still resolve to final values without animation
+    document.querySelectorAll('.counter').forEach((el) => {
+      const t = parseInt(el.dataset.target, 10);
+      el.textContent = t.toLocaleString() + (el.dataset.suffix || '');
+    });
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero kinetic reveal
+  gsap.set(['.hero-eyebrow', '.hero-line', '.hero-sub', '.hero-cta'], { opacity: 0, y: 40 });
+  gsap.timeline({ defaults: { ease: 'power3.out' } })
+    .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.6, delay: 0.15 })
+    .to('.hero-line', { opacity: 1, y: 0, duration: 0.9 }, '-=0.3')
+    .to('.hero-sub', { opacity: 1, y: 0, duration: 0.7 }, '-=0.5')
+    .to('.hero-cta', { opacity: 1, y: 0, duration: 0.6 }, '-=0.45');
+
+  // Generic staggered reveals
+  gsap.utils.toArray('.reveal').forEach((el) => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%' },
+    });
+  });
+
+  // Program / story / price card staggers per section
+  const staggerGroups = ['#programs .program', '#stories .story', '#pricing .price-card'];
+  staggerGroups.forEach((sel) => {
+    const items = gsap.utils.toArray(sel);
+    if (!items.length) return;
+    gsap.from(items, {
+      opacity: 0, y: 50, duration: 0.6, stagger: 0.08, ease: 'power3.out',
+      scrollTrigger: { trigger: items[0].parentElement, start: 'top 80%' },
+    });
+  });
+
+  // Hover physics on cards (transform/opacity only)
+  document.querySelectorAll('.program, .story, .price-card').forEach((card) => {
+    card.addEventListener('mouseenter', () => gsap.to(card, { y: -6, duration: 0.3, ease: 'power2.out' }));
+    card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, duration: 0.3, ease: 'power2.out' }));
+  });
+
+  // SIGNATURE: pinned horizontal schedule track
+  const track = document.getElementById('h-track');
+  const pinWrap = document.getElementById('pin-wrap');
+  if (track && pinWrap && window.innerWidth >= 640) {
+    const getScrollDist = () => track.scrollWidth - window.innerWidth;
+    gsap.to(track, {
+      x: () => -getScrollDist(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: pinWrap,
+        start: 'top top',
+        end: () => '+=' + getScrollDist(),
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+  } else if (track) {
+    // Mobile: allow native horizontal scroll instead of pin
+    pinWrap.classList.remove('h-[100svh]', 'overflow-hidden');
+    pinWrap.classList.add('overflow-x-auto', 'no-scrollbar', 'pb-6');
+  }
+
+  // Stat counters
+  document.querySelectorAll('.counter').forEach((el) => {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const obj = { val: 0 };
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.to(obj, {
+          val: target,
+          duration: 2,
+          ease: 'power2.out',
+          onUpdate: () => { el.textContent = Math.round(obj.val).toLocaleString() + suffix; },
+        });
+      },
+    });
+  });
+})();
+</script>
+</body>
+</html>
